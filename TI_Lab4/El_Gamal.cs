@@ -25,12 +25,19 @@ namespace TI_Lab4
             if(IsPrime(q))
                 Q = q;
             else
-                throw new Exception("Число q должно быть простое");
+                throw new LogicException("Число q должно быть простое");
 
-            if(IsPrime(p) && (p-1)%q == 0)
-                P = p;
+            if (IsPrime(p))
+            {
+                if ((p - 1) % q == 0)
+                {
+                    P = p;
+                }                 
+                else
+                    throw new LogicException("Число q должно является делителем p-1");
+            }       
             else 
-                throw new Exception("Число p должно является делителем p-1 и быть простым");
+                throw new LogicException("Число p должно быть простым");
 
             if (h > 1 && h < p - 1)
             {
@@ -41,20 +48,20 @@ namespace TI_Lab4
                     H = h;
                 }
                 else
-                    throw new Exception("Число g должно быть больше 1, выберите другое h");
+                    throw new LogicException("Число g должно быть больше 1, выберите другое h");
             }
             else
-                throw new Exception("Число h должно быть больше 1 и меньше p-1");
+                throw new LogicException("Число h должно быть больше 1 и меньше p-1");
 
             if(x > 0 && x < q)
                 X = x;
             else 
-                throw new Exception("Число x должно быть больше 0 и меньше q");
+                throw new LogicException("Число x должно быть больше 0 и меньше q");
 
             if (k > 0 && k < q)
                 K = k;
             else
-                throw new Exception("Число k должно быть больше 0 и меньше q");
+                throw new LogicException("Число k должно быть больше 0 и меньше q");
 
             this.data = data;
         }

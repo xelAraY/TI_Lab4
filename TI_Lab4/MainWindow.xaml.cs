@@ -26,6 +26,7 @@ namespace TI_Lab4
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == true)
             {
+                CheckSignatureText_TextBox.Clear();
                 _filePath = ofd.FileName;
                 byte[] data = File.ReadAllBytes(ofd.FileName);
                 try
@@ -38,10 +39,10 @@ namespace TI_Lab4
 
                     (int hash, int r, int s) signature = elGamal.SignatureMessage();
 
-                    if(signature.r == 0 || signature.s == 0)
-                    {
-                        throw new Exception("Выберите другое значение для k");
-                    }
+                    if(signature.r == 0)
+                        MessageBox.Show("r получилось равным 0, выберите другое значение для k");
+                    else if(signature.s == 0)
+                        MessageBox.Show("s получилось равным 0, выберите другое значение для k");
 
                     Hash_TextBox.Text = Convert.ToString(signature.hash, 10);
 
@@ -105,7 +106,7 @@ namespace TI_Lab4
                     CheckSignatureText_TextBox.Text = sb.ToString();
                 }
                 else
-                {
+                {              
                     MessageBox.Show("Файл не подписан");
                     return;
                 }                                            
