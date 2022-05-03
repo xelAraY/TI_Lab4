@@ -1,0 +1,54 @@
+﻿<Window x:Class="TI_Lab4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TI_Lab4"
+        mc:Ignorable="d"
+        Title="ЭЦП" Height="470" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel x:Name="InputData_Panel" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+            <Label x:Name="PrimeNumQ_Label" Margin="5 5 5 0">Простое число, q</Label>
+            <TextBox x:Name="PrimeNumQ_TextBox" Margin="5" Height="25"/>
+
+            <Label x:Name="PrimeNumP_Label" Margin="5 5 5 0">Простое число, p</Label>
+            <TextBox x:Name="PrimeNumP_TextBox" Margin="5" Height="25"/>
+
+            <Label x:Name="h_Label" Margin="5 5 5 0">h</Label>
+            <TextBox x:Name="h_TextBox" Margin="5" Height="25"/>
+
+            <Label x:Name="x_Label" Margin="5 5 5 0">Закрытый ключ отправителя, x</Label>
+            <TextBox x:Name="x_TextBox" Margin="5" Height="25"/>
+
+            <Label x:Name="k_Label" Margin="5 5 5 0">k</Label>
+            <TextBox x:Name="k_TextBox" Margin="5" Height="25"/>
+
+            <Button x:Name="SignFile_Button" Content="Подписать файл" Margin="5 10" Width="250" 
+                    HorizontalAlignment="Left" Height="25" Click="SignFile_Button_Click"/>
+            <Button x:Name="CheckSignature_Button" Content="Проверить подпись" Margin="5 10" Width="250" 
+                    HorizontalAlignment="Left" Height="25" Click="CheckSignature_Button_Click"/>
+        </StackPanel>
+
+        <StackPanel x:Name="ResultData_Panel" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+            <Label x:Name="Hash_Label" Margin="5 5 5 0">Хеш сообщения, h(M)</Label>
+            <TextBox x:Name="Hash_TextBox" Margin="5" Height="25" IsReadOnly="True"/>
+
+            <Label x:Name="SignatureText_Label" Margin="5 5 5 0">Подпись для сообщения</Label>
+            <TextBox x:Name="SignatureText_TextBox" Margin="5" Height="25" IsReadOnly="True"/>
+
+            <Label x:Name="CheckSignatureText_Label" Margin="5 5 5 0">Результат проверки</Label>
+            <TextBox x:Name="CheckSignatureText_TextBox" Margin="5" Height="50" IsReadOnly="True"/>
+        </StackPanel>
+    </Grid>
+</Window>
