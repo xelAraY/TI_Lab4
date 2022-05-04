@@ -4,6 +4,7 @@ using System.Windows;
 using Microsoft.Win32;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace TI_Lab4
 {
@@ -29,13 +30,15 @@ namespace TI_Lab4
                 CheckSignatureText_TextBox.Clear();
                 _filePath = ofd.FileName;
                 byte[] data = File.ReadAllBytes(ofd.FileName);
+                string tmp = Encoding.UTF8.GetString(data);
+                data = Encoding.UTF8.GetBytes(tmp);
                 try
                 {
-                    elGamal = new El_Gamal(int.Parse(PrimeNumQ_TextBox.Text),
-                        int.Parse(PrimeNumP_TextBox.Text), int.Parse(h_TextBox.Text),
-                        int.Parse(x_TextBox.Text), int.Parse(k_TextBox.Text), data);
+                    //elGamal = new El_Gamal(int.Parse(PrimeNumQ_TextBox.Text),
+                    //    int.Parse(PrimeNumP_TextBox.Text), int.Parse(h_TextBox.Text),
+                    //    int.Parse(x_TextBox.Text), int.Parse(k_TextBox.Text), data);
 
-                    //elGamal = new El_Gamal(593, 3559, 3, 17, 23, data);
+                    elGamal = new El_Gamal(593, 3559, 3, 17, 23, data);
 
                     (int hash, int r, int s) signature = elGamal.SignatureMessage();
 
@@ -81,22 +84,25 @@ namespace TI_Lab4
                 _filePath = ofd.FileName;               
                 byte[] data = File.ReadAllBytes(ofd.FileName);         
 
-                //string pattern = "\\nr = [0-9]+, s = [0-9]+;\\n";
+                string pattern = "\\nr = [0-9]+, s = [0-9]+;\\n";
 
-                var message = Encoding.ASCII.GetString(data);
+                var message = Encoding.UTF8.GetString(data);
 
-                //var rsString = Regex.Matches(message, "\\nr = [0-9]+, s = [0-9]+;\\n").ToString();
-                var mathes = Regex.Matches(message, "[0-9]+");
-
-                if (mathes.Count > 1)
+                var rsmathes = Regex.Matches(message, pattern);
+               
+                if (rsmathes.Count != 0)
                 {
+                    string rsString = rsmathes.Last().ToString();
+
+                    var mathes = Regex.Matches(rsString, "[0-9]+");
+
                     int r = int.Parse(mathes[0].ToString());
                     int s = int.Parse(mathes[1].ToString());
 
                     StringBuilder sb = new StringBuilder();
-                    string newMessage = Regex.Replace(message, "\\nr = [0-9]+, s = [0-9]+;\\n", string.Empty);
+                    string newMessage = Regex.Replace(message, pattern, string.Empty);
 
-                    data = Encoding.ASCII.GetBytes(newMessage);
+                    data = Encoding.UTF8.GetBytes(newMessage);
 
                     if (elGamal.CheckSignature(data, r, s))
                         sb.Append($"Подпись является подлинной, r = v ({r} = {elGamal.V})");
@@ -107,7 +113,7 @@ namespace TI_Lab4
                 }
                 else
                 {              
-                    MessageBox.Show("Файл не подписан");
+                    CheckSignatureText_TextBox.Text = "Файл не подписан";
                     return;
                 }                                            
             }
